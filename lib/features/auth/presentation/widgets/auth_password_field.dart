@@ -48,7 +48,8 @@ class _AuthPasswordFieldState extends State<AuthPasswordField> {
               : Icons.visibility_off_outlined,
         ),
       ),
-      validator: (value) => AppValidation.validate(ValidationType.password, value),
+      validator: (value) =>
+          AppValidation.validate(ValidationType.password, value),
     );
   }
 }

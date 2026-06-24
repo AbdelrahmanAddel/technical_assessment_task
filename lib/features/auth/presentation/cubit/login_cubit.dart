@@ -8,10 +8,7 @@ final class LoginCubit extends Cubit<LoginState> {
 
   final LoginUseCase loginUseCase;
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     emit(const LoginLoading());
 
     final result = await loginUseCase(email: email, password: password);
@@ -21,5 +18,4 @@ final class LoginCubit extends Cubit<LoginState> {
       (session) => emit(LoginSuccess(session)),
     );
   }
-
 }

@@ -1,10 +1,6 @@
 import 'package:flutter_techincal_test/core/constant/app_strings.dart';
 
-enum ValidationType {
-  name,
-  email,
-  password,
-}
+enum ValidationType { name, email, password }
 
 abstract final class AppValidation {
   static String? validate(ValidationType type, String? value) {

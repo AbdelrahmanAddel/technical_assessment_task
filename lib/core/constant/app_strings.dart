@@ -1,6 +1,7 @@
 abstract final class AppStrings {
   static const welcomeBack = 'Welcome back';
-  static const signInWithYourEmailAndPassword = 'Sign in with your email and password.';
+  static const signInWithYourEmailAndPassword =
+      'Sign in with your email and password.';
   static const email = 'Email';
   static const enterYourEmail = 'Enter your email';
   static const password = 'Password';

@@ -76,11 +76,7 @@ class AppButton extends StatelessWidget {
 }
 
 class _ButtonContent extends StatelessWidget {
-  const _ButtonContent({
-    required this.text,
-    required this.style,
-    this.icon,
-  });
+  const _ButtonContent({required this.text, required this.style, this.icon});
 
   final String text;
   final TextStyle? style;

@@ -26,9 +26,7 @@ final class AuthRepositoryImpl implements AuthRepository {
 
       return Success(AuthMapper.toEntity(response));
     } on DioException catch (error) {
-      return FailureResult(
-        ServerFailure.fromDioException(dioException: error),
-      );
+      return FailureResult(ServerFailure.fromDioException(dioException: error));
     } on ServerException catch (error) {
       return FailureResult(ServerFailure(errMessage: error.message));
     } catch (_) {
