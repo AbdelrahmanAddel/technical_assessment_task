@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_techincal_test/core/common/app_dimen.dart';
 import 'package:flutter_techincal_test/core/helper/extension/color_extension.dart';
+import 'package:flutter_techincal_test/core/helper/spacer_helper.dart';
 
 class AppPlaceholderCard extends StatelessWidget {
   const AppPlaceholderCard({
@@ -17,16 +18,18 @@ class AppPlaceholderCard extends StatelessWidget {
     final colors = context.colors;
 
     return Padding(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(AppDimension.placeholderOuterPadding),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.surface,
           border: Border.all(color: colors.border),
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: BorderRadius.circular(
+            AppDimension.placeholderBorderRadius,
+          ),
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(24.w),
+            padding: EdgeInsets.all(AppDimension.placeholderInnerPadding),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -39,12 +42,14 @@ class AppPlaceholderCard extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 8.h),
+                  verticalSpace(AppDimension.placeholderTitleSpacing),
                 ],
                 Text(
                   message,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: colors.text.withValues(alpha: 0.72),
+                    color: colors.text.withValues(
+                      alpha: AppDimension.placeholderSubtitleAlpha,
+                    ),
                   ),
                   textAlign: TextAlign.center,
                 ),

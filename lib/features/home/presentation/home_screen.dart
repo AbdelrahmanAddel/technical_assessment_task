@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_techincal_test/core/common/widget/app_bottom_nav_bar.dart';
 import 'package:flutter_techincal_test/core/constant/app_strings.dart';
+import 'package:flutter_techincal_test/core/di/dependency_injection.dart';
+import 'package:flutter_techincal_test/features/home/presentation/cubit/products_cubit.dart';
 import 'package:flutter_techincal_test/features/home/presentation/tabs/home_tab.dart';
 import 'package:flutter_techincal_test/features/home/presentation/tabs/profile_tab.dart';
 
@@ -42,13 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(_navItems[_currentIndex].label)),
-      body: _buildCurrentTab(),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabSelected,
-        items: _navItems,
+    return BlocProvider(
+      create: (_) => getIt<ProductsCubit>()..loadProducts(),
+      child: Scaffold(
+        appBar: AppBar(title: Text(_navItems[_currentIndex].label)),
+        body: _buildCurrentTab(),
+        bottomNavigationBar: AppBottomNavBar(
+          currentIndex: _currentIndex,
+          onTap: _onTabSelected,
+          items: _navItems,
+        ),
       ),
     );
   }

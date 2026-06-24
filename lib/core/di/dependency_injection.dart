@@ -14,6 +14,12 @@ import '../../features/auth/domain/usecases/verify_email_use_case.dart';
 import '../../features/auth/presentation/cubit/login_cubit.dart';
 import '../../features/auth/presentation/cubit/otp_cubit.dart';
 import '../../features/auth/presentation/cubit/register_cubit.dart';
+import '../../features/home/data/data_sources/products_remote_data_source.dart';
+import '../../features/home/data/data_sources/products_remote_data_source_impl.dart';
+import '../../features/home/data/repositories/products_repository_impl.dart';
+import '../../features/home/domain/repositories/products_repository.dart';
+import '../../features/home/domain/usecases/get_products_use_case.dart';
+import '../../features/home/presentation/cubit/products_cubit.dart';
 import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
 import '../constant/api_strings.dart';
@@ -24,6 +30,7 @@ final GetIt getIt = GetIt.instance;
 void setupDependencyInjection() {
   _setupCore();
   _setupAuthFeature();
+  _setupHomeFeature();
 }
 
 void _setupCore() {
@@ -81,5 +88,23 @@ void _setupAuthFeature() {
     )
     ..registerFactory<OtpCubit>(
       () => OtpCubit(verifyEmailUseCase: getIt<VerifyEmailUseCase>()),
+    );
+}
+
+void _setupHomeFeature() {
+  getIt
+    ..registerLazySingleton<ProductsRemoteDataSource>(
+      () => ProductsRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+    )
+    ..registerLazySingleton<ProductsRepository>(
+      () => ProductsRepositoryImpl(
+        remoteDataSource: getIt<ProductsRemoteDataSource>(),
+      ),
+    )
+    ..registerLazySingleton<GetProductsUseCase>(
+      () => GetProductsUseCase(productsRepository: getIt<ProductsRepository>()),
+    )
+    ..registerFactory<ProductsCubit>(
+      () => ProductsCubit(getProductsUseCase: getIt<GetProductsUseCase>()),
     );
 }

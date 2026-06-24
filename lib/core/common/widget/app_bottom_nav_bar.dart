@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_techincal_test/core/common/app_dimen.dart';
 import 'package:flutter_techincal_test/core/helper/extension/color_extension.dart';
+import 'package:flutter_techincal_test/core/helper/spacer_helper.dart';
 
 class AppBottomNavItem {
   const AppBottomNavItem({
@@ -38,7 +39,10 @@ class AppBottomNavBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimension.bottomNavHorizontalPadding,
+            vertical: AppDimension.bottomNavVerticalPadding,
+          ),
           child: Row(
             children: List.generate(items.length, (index) {
               final item = items[index];
@@ -75,24 +79,28 @@ class _NavBarItem extends StatelessWidget {
     final colors = context.colors;
     final color = isSelected
         ? colors.primary
-        : colors.text.withValues(alpha: 0.55);
+        : colors.text.withValues(alpha: AppDimension.bottomNavUnselectedAlpha);
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(
+          AppDimension.bottomNavItemBorderRadius,
+        ),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
+          padding: EdgeInsets.symmetric(
+            vertical: AppDimension.bottomNavItemVerticalPadding,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 isSelected ? (item.selectedIcon ?? item.icon) : item.icon,
                 color: color,
-                size: 24.r,
+                size: AppDimension.bottomNavIconSize,
               ),
-              SizedBox(height: 4.h),
+              verticalSpace(AppDimension.bottomNavLabelSpacing),
               Text(
                 item.label,
                 maxLines: 1,

@@ -36,4 +36,10 @@ abstract final class AppStrings {
   static const profileTab = 'Profile';
   static const homeTabPlaceholder = 'Home content will appear here.';
   static const profileTabPlaceholder = 'Profile content will appear here.';
+  static const products = 'Products';
+  static const noProductsFound = 'No products found.';
+  static const failedToLoadProducts = 'Failed to load products.';
+  static const retry = 'Retry';
+  static const currencySymbol = 'EGP';
+  static const off = 'OFF';
 }
