@@ -17,8 +17,10 @@ class RegisterBlocListener extends StatelessWidget {
       },
       listener: (context, state) {
         switch (state) {
-          case RegisterSuccess():
-            context.go(RoutesStrings.login);
+          case RegisterSuccess(:final email):
+            context.go(
+              '${RoutesStrings.otp}?email=$email',
+            );
           case RegisterFailure(:final message):
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()

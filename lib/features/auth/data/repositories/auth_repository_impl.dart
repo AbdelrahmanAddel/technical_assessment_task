@@ -75,4 +75,23 @@ final class AuthRepositoryImpl implements AuthRepository {
     final token = await secureStorage.read(key: StorageKeys.accessToken);
     return token != null && token.isNotEmpty;
   }
+
+  @override
+  Future<Result<void>> verifyEmail({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      await remoteDataSource.verifyEmail(email: email, otp: otp);
+      return const Success(null);
+    } on DioException catch (error) {
+      return FailureResult(ServerFailure.fromDioException(dioException: error));
+    } on ServerException catch (error) {
+      return FailureResult(ServerFailure(errMessage: error.message));
+    } catch (_) {
+      return const FailureResult(
+        ServerFailure(errMessage: 'Unexpected error, please try later.'),
+      );
+    }
+  }
 }

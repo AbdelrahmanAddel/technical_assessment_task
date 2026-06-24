@@ -38,4 +38,18 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> register({required RegisterRequestParameters request}) async {
     await apiConsumer.post(path: ApiKeys.authRegister, body: request.toJson());
   }
+
+  @override
+  Future<void> verifyEmail({
+    required String email,
+    required String otp,
+  }) async {
+    await apiConsumer.post(
+      path: ApiKeys.authVerifyEmail,
+      body: {
+        ApiKeys.email: email,
+        ApiKeys.otp: otp,
+      },
+    );
+  }
 }

@@ -11,7 +11,9 @@ final class RegisterLoading extends RegisterState {
 }
 
 final class RegisterSuccess extends RegisterState {
-  const RegisterSuccess();
+  const RegisterSuccess(this.email);
+
+  final String email;
 }
 
 final class RegisterFailure extends RegisterState {

@@ -20,7 +20,7 @@ final class RegisterCubit extends Cubit<RegisterState> {
 
     result.fold(
       (failure) => emit(RegisterFailure(failure.errMessage)),
-      (_) => emit(const RegisterSuccess()),
+      (_) => emit(RegisterSuccess(request.email)),
     );
   }
 }

@@ -8,4 +8,9 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<void> register({required RegisterRequestParameters request});
+
+  Future<void> verifyEmail({
+    required String email,
+    required String otp,
+  });
 }

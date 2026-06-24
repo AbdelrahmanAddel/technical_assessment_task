@@ -10,7 +10,9 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/check_auth_use_case.dart';
 import '../../features/auth/domain/usecases/login_use_case.dart';
 import '../../features/auth/domain/usecases/register_use_case.dart';
+import '../../features/auth/domain/usecases/verify_email_use_case.dart';
 import '../../features/auth/presentation/cubit/login_cubit.dart';
+import '../../features/auth/presentation/cubit/otp_cubit.dart';
 import '../../features/auth/presentation/cubit/register_cubit.dart';
 import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
@@ -68,10 +70,16 @@ void _setupAuthFeature() {
     ..registerLazySingleton<CheckAuthUseCase>(
       () => CheckAuthUseCase(authRepository: getIt<AuthRepository>()),
     )
+    ..registerLazySingleton<VerifyEmailUseCase>(
+      () => VerifyEmailUseCase(authRepository: getIt<AuthRepository>()),
+    )
     ..registerFactory<LoginCubit>(
       () => LoginCubit(loginUseCase: getIt<LoginUseCase>()),
     )
     ..registerFactory<RegisterCubit>(
       () => RegisterCubit(registerUseCase: getIt<RegisterUseCase>()),
+    )
+    ..registerFactory<OtpCubit>(
+      () => OtpCubit(verifyEmailUseCase: getIt<VerifyEmailUseCase>()),
     );
 }

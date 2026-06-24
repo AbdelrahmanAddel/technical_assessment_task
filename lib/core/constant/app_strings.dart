@@ -26,4 +26,10 @@ abstract final class AppStrings {
   static const passwordRequired = 'Password is required';
   static const passwordTooShort = 'Password must be at least 6 characters';
   static const invalidLoginResponse = 'Invalid login response.';
+  static const verifyOtp = 'Verify OTP';
+  static const enterOtpSentToEmail =
+      'Enter the verification code sent to your email.';
+  static const verify = 'Verify';
+  static const otpRequired = 'OTP is required';
+  static const otpTooShort = 'OTP must be 6 digits';
 }

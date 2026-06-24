@@ -11,5 +11,10 @@ abstract interface class AuthRepository {
 
   Future<Result<void>> register({required RegisterRequestParameters request});
 
+  Future<Result<void>> verifyEmail({
+    required String email,
+    required String otp,
+  });
+
   Future<bool> hasCachedToken();
 }
