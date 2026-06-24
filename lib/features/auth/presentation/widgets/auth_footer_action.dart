@@ -13,7 +13,7 @@ class AuthFooterAction extends StatelessWidget {
 
   final String message;
   final String actionText;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

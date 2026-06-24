@@ -3,6 +3,8 @@ abstract final class AppStrings {
   static const signInWithYourEmailAndPassword = 'Sign in with your email and password.';
   static const email = 'Email';
   static const enterYourEmail = 'Enter your email';
+  static const password = 'Password';
+  static const enterYourPassword = 'Enter your password';
   static const login = 'Login';
   static const noAccountMessage = 'Do not have an account?';
   static const createOne = 'Create one';
@@ -18,4 +20,5 @@ abstract final class AppStrings {
   static const enterValidEmail = 'Enter a valid email';
   static const passwordRequired = 'Password is required';
   static const passwordTooShort = 'Password must be at least 6 characters';
+  static const invalidLoginResponse = 'Invalid login response.';
 }
