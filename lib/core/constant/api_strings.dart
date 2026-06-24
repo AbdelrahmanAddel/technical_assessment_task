@@ -1,5 +1,5 @@
 abstract final class ApiKeys {
-  static const baseUrl = 'https://example.com';
+  static const baseUrl = 'https://accessories-eshop.runasp.net';
   static const authLogin = '/api/auth/login';
 
   static const email = 'email';

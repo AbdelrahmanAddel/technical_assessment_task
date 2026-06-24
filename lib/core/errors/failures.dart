@@ -54,6 +54,25 @@ class ServerFailure extends Failures {
 
   static String _extractMessage(dynamic response) {
     if (response is Map<String, dynamic>) {
+      final errors = response['errors'];
+      if (errors is Map && errors.isNotEmpty) {
+        final errorMessages = <String>[];
+        errors.forEach((key, value) {
+          if (value is List) {
+            for (final err in value) {
+              if (err is String && err.trim().isNotEmpty) {
+                errorMessages.add(err);
+              }
+            }
+          } else if (value is String && value.trim().isNotEmpty) {
+            errorMessages.add(value);
+          }
+        });
+        if (errorMessages.isNotEmpty) {
+          return errorMessages.join('\n');
+        }
+      }
+
       final directMessage =
           response['message'] ??
           response['Message'] ??
@@ -63,17 +82,6 @@ class ServerFailure extends Failures {
 
       if (directMessage is String && directMessage.trim().isNotEmpty) {
         return directMessage;
-      }
-
-      final errors = response['errors'];
-      if (errors is Map && errors.isNotEmpty) {
-        final firstValue = errors.values.first;
-        if (firstValue is List && firstValue.isNotEmpty) {
-          final firstError = firstValue.first;
-          if (firstError is String && firstError.trim().isNotEmpty) {
-            return firstError;
-          }
-        }
       }
     }
 
