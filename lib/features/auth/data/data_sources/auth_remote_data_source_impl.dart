@@ -4,6 +4,7 @@ import '../../../../core/constant/app_strings.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
+import '../models/register_request.dart';
 import 'auth_remote_data_source.dart';
 
 final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -31,5 +32,10 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on FormatException {
       throw ServerException(message: AppStrings.invalidLoginResponse);
     }
+  }
+
+  @override
+  Future<void> register({required RegisterRequestParameters request}) async {
+    await apiConsumer.post(path: ApiKeys.authRegister, body: request.toJson());
   }
 }

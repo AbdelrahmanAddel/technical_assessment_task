@@ -13,6 +13,10 @@ abstract final class AppStrings {
   static const enterYourDetailsToRegister = 'Enter your details to register.';
   static const name = 'Name';
   static const enterYourName = 'Enter your name';
+  static const firstName = 'First Name';
+  static const enterYourFirstName = 'Enter your first name';
+  static const lastName = 'Last Name';
+  static const enterYourLastName = 'Enter your last name';
   static const register = 'Register';
   static const alreadyHaveAnAccountMessage = 'Already have an account?';
   static const nameRequired = 'Name is required';

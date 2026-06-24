@@ -1,14 +1,19 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/screens/register_screen.dart';
+import 'package:flutter_techincal_test/features/auth/presentation/screens/splash_screen.dart';
 
 import '../../features/home/presentation/home_screen.dart';
 import 'routes_strings.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
-    initialLocation: RoutesStrings.login,
+    initialLocation: RoutesStrings.splash,
     routes: [
+      GoRoute(
+        path: RoutesStrings.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: RoutesStrings.login,
         builder: (context, state) => const LoginScreen(),

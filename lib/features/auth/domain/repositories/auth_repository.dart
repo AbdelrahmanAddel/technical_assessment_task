@@ -1,3 +1,5 @@
+import 'package:flutter_techincal_test/features/auth/data/models/register_request.dart';
+
 import '../../../../core/api/result.dart';
 import '../entities/auth_session.dart';
 
@@ -6,4 +8,8 @@ abstract interface class AuthRepository {
     required String email,
     required String password,
   });
+
+  Future<Result<void>> register({required RegisterRequestParameters request});
+
+  Future<bool> hasCachedToken();
 }
