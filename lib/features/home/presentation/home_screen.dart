@@ -1,37 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_techincal_test/core/helper/extension/color_extension.dart';
+import 'package:flutter_techincal_test/core/common/widget/app_bottom_nav_bar.dart';
+import 'package:flutter_techincal_test/core/constant/app_strings.dart';
+import 'package:flutter_techincal_test/features/home/presentation/tabs/home_tab.dart';
+import 'package:flutter_techincal_test/features/home/presentation/tabs/profile_tab.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  static const _navItems = <AppBottomNavItem>[
+    AppBottomNavItem(
+      icon: Icons.home_outlined,
+      selectedIcon: Icons.home,
+      label: AppStrings.homeTab,
+    ),
+    AppBottomNavItem(
+      icon: Icons.person_outline,
+      selectedIcon: Icons.person,
+      label: AppStrings.profileTab,
+    ),
+  ];
+
+  int _currentIndex = 0;
+
+  void _onTabSelected(int index) {
+    if (index == _currentIndex) return;
+    setState(() => _currentIndex = index);
+  }
+
+  Widget _buildCurrentTab() {
+    return switch (_currentIndex) {
+      0 => const HomeTab(),
+      1 => const ProfileTab(),
+      _ => const HomeTab(),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Padding(
-        padding: EdgeInsets.all(24.w),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.surface,
-            border: Border.all(color: colors.border),
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.all(24.w),
-              child: Text(
-                'Core setup is ready',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colors.text,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ),
+      appBar: AppBar(title: Text(_navItems[_currentIndex].label)),
+      body: _buildCurrentTab(),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onTabSelected,
+        items: _navItems,
       ),
     );
   }

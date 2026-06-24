@@ -32,4 +32,8 @@ abstract final class AppStrings {
   static const verify = 'Verify';
   static const otpRequired = 'OTP is required';
   static const otpTooShort = 'OTP must be 6 digits';
+  static const homeTab = 'Home';
+  static const profileTab = 'Profile';
+  static const homeTabPlaceholder = 'Home content will appear here.';
+  static const profileTabPlaceholder = 'Profile content will appear here.';
 }
