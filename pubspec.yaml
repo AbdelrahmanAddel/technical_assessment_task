@@ -44,6 +44,9 @@ dependencies:
   flutter_otp_text_field: ^1.5.1+1
   dartx: ^1.2.0
   cached_network_image: ^3.4.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  connectivity_plus: ^7.1.1
 
 dev_dependencies:
   flutter_test:

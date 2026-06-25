@@ -1,4 +1,5 @@
 import '../../../../core/constant/api_strings.dart';
+import '../../../../core/helper/json_helper.dart';
 import 'product_model.dart';
 
 final class ProductsResponse {
@@ -18,13 +19,23 @@ final class ProductsResponse {
     return ProductsResponse(
       items: rawItems is List
           ? rawItems
-                .whereType<Map<String, dynamic>>()
-                .map(ProductModel.fromJson)
+                .whereType<Map>()
+                .map(
+                  (item) => ProductModel.fromJson(JsonHelper.toStringKeyMap(item)),
+                )
                 .toList()
           : const [],
       page: _toInt(json[ApiKeys.page], fallback: 1),
       hasNextPage: json[ApiKeys.hasNextPage] as bool? ?? false,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKeys.items: items.map((item) => item.toJson()).toList(),
+      ApiKeys.page: page,
+      ApiKeys.hasNextPage: hasNextPage,
+    };
   }
 
   static int _toInt(dynamic value, {int fallback = 0}) {

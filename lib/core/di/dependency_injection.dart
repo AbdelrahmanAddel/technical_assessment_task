@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -14,6 +15,8 @@ import '../../features/auth/domain/usecases/verify_email_use_case.dart';
 import '../../features/auth/presentation/cubit/login_cubit.dart';
 import '../../features/auth/presentation/cubit/otp_cubit.dart';
 import '../../features/auth/presentation/cubit/register_cubit.dart';
+import '../../features/home/data/data_sources/products_local_data_source.dart';
+import '../../features/home/data/data_sources/products_local_data_source_impl.dart';
 import '../../features/home/data/data_sources/products_remote_data_source.dart';
 import '../../features/home/data/data_sources/products_remote_data_source_impl.dart';
 import '../../features/home/data/repositories/products_repository_impl.dart';
@@ -25,12 +28,15 @@ import '../../features/home/domain/usecases/update_product_use_case.dart';
 import '../../features/home/presentation/cubit/products_cubit.dart';
 import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
+import '../cache/hive_boxes.dart';
 import '../constant/api_strings.dart';
 import '../helper/secure_storage.dart';
+import '../network/network_info.dart';
 
 final GetIt getIt = GetIt.instance;
 
-void setupDependencyInjection() {
+Future<void> setupDependencyInjection() async {
+  await HiveBoxes.init();
   _setupCore();
   _setupAuthFeature();
   _setupHomeFeature();
@@ -54,6 +60,10 @@ void _setupCore() {
 
   getIt
     ..registerSingleton<Dio>(dio)
+    ..registerLazySingleton<Connectivity>(() => Connectivity())
+    ..registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(connectivity: getIt<Connectivity>()),
+    )
     ..registerLazySingleton<SecureStorage>(
       () => SecureStorage(storage: const FlutterSecureStorage()),
     )
@@ -99,9 +109,14 @@ void _setupHomeFeature() {
     ..registerLazySingleton<ProductsRemoteDataSource>(
       () => ProductsRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
     )
+    ..registerLazySingleton<ProductsLocalDataSource>(
+      () => const ProductsLocalDataSourceImpl(),
+    )
     ..registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(
         remoteDataSource: getIt<ProductsRemoteDataSource>(),
+        localDataSource: getIt<ProductsLocalDataSource>(),
+        networkInfo: getIt<NetworkInfo>(),
       ),
     )
     ..registerLazySingleton<GetProductsUseCase>(

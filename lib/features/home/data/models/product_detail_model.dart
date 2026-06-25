@@ -61,6 +61,28 @@ final class ProductDetailModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKeys.id: id,
+      ApiKeys.productCode: productCode,
+      ApiKeys.name: name,
+      ApiKeys.description: description,
+      ApiKeys.nameArabic: nameArabic,
+      ApiKeys.descriptionArabic: descriptionArabic,
+      ApiKeys.coverPictureUrl: coverPictureUrl,
+      ApiKeys.productPictures: productPictures,
+      ApiKeys.categories: categories,
+      ApiKeys.price: price,
+      ApiKeys.stock: stock,
+      ApiKeys.weight: weight,
+      ApiKeys.color: color,
+      ApiKeys.discountPercentage: discountPercentage,
+      ApiKeys.rating: rating,
+      ApiKeys.reviewsCount: reviewsCount,
+      ApiKeys.sellerId: sellerId,
+    };
+  }
+
   static List<String> _toStringList(dynamic value) {
     if (value is! List) return const [];
     return value.whereType<String>().toList();

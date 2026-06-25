@@ -34,6 +34,19 @@ final class ProductModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKeys.id: id,
+      ApiKeys.name: name,
+      ApiKeys.description: description,
+      ApiKeys.coverPictureUrl: coverPictureUrl,
+      ApiKeys.price: price,
+      ApiKeys.rating: rating,
+      ApiKeys.reviewsCount: reviewsCount,
+      ApiKeys.discountPercentage: discountPercentage,
+    };
+  }
+
   static double _toDouble(dynamic value) {
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value) ?? 0;
