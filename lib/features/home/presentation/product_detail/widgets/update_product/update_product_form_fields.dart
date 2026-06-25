@@ -5,7 +5,7 @@ import 'package:flutter_techincal_test/core/constant/app_strings.dart';
 import 'package:flutter_techincal_test/core/helper/app_validation.dart';
 import 'package:flutter_techincal_test/core/helper/spacer_helper.dart';
 import 'package:flutter_techincal_test/features/home/presentation/home_dimen.dart';
-import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product_form_controllers.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product/update_product_form_controllers.dart';
 
 class UpdateProductFormFields extends StatelessWidget {
   const UpdateProductFormFields({

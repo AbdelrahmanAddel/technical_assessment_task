@@ -8,10 +8,10 @@ import 'package:flutter_techincal_test/features/home/domain/entities/update_prod
 import 'package:flutter_techincal_test/features/home/presentation/home_dimen.dart';
 import 'package:flutter_techincal_test/features/home/presentation/product_detail/cubit/product_detail_cubit.dart';
 import 'package:flutter_techincal_test/features/home/presentation/product_detail/cubit/product_detail_state.dart';
-import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product_bottom_sheet_listener.dart';
-import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product_form.dart';
-import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product_form_controllers.dart';
-import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product_sheet_header.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product/update_product_bottom_sheet_listener.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product/update_product_form.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product/update_product_form_controllers.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/widgets/update_product/update_product_sheet_header.dart';
 
 class UpdateProductBottomSheet extends StatefulWidget {
   const UpdateProductBottomSheet({super.key, required this.product});
