@@ -4,7 +4,9 @@ import 'package:flutter_techincal_test/features/auth/presentation/screens/otp_sc
 import 'package:flutter_techincal_test/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/screens/splash_screen.dart';
 
+import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/home/presentation/product_detail/product_detail_screen.dart';
 import 'routes_strings.dart';
 
 abstract final class AppRouter {
@@ -33,6 +35,17 @@ abstract final class AppRouter {
       GoRoute(
         path: RoutesStrings.home,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '${RoutesStrings.productDetails}/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId']!;
+          final preview = state.extra;
+          return ProductDetailScreen(
+            productId: productId,
+            previewProduct: preview is Product ? preview : null,
+          );
+        },
       ),
     ],
   );

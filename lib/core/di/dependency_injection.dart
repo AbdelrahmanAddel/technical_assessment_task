@@ -18,7 +18,10 @@ import '../../features/home/data/data_sources/products_remote_data_source.dart';
 import '../../features/home/data/data_sources/products_remote_data_source_impl.dart';
 import '../../features/home/data/repositories/products_repository_impl.dart';
 import '../../features/home/domain/repositories/products_repository.dart';
+import '../../features/home/domain/usecases/delete_product_use_case.dart';
+import '../../features/home/domain/usecases/get_product_use_case.dart';
 import '../../features/home/domain/usecases/get_products_use_case.dart';
+import '../../features/home/domain/usecases/update_product_use_case.dart';
 import '../../features/home/presentation/cubit/products_cubit.dart';
 import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
@@ -103,6 +106,15 @@ void _setupHomeFeature() {
     )
     ..registerLazySingleton<GetProductsUseCase>(
       () => GetProductsUseCase(productsRepository: getIt<ProductsRepository>()),
+    )
+    ..registerLazySingleton<GetProductUseCase>(
+      () => GetProductUseCase(productsRepository: getIt<ProductsRepository>()),
+    )
+    ..registerLazySingleton<UpdateProductUseCase>(
+      () => UpdateProductUseCase(productsRepository: getIt<ProductsRepository>()),
+    )
+    ..registerLazySingleton<DeleteProductUseCase>(
+      () => DeleteProductUseCase(productsRepository: getIt<ProductsRepository>()),
     )
     ..registerFactory<ProductsCubit>(
       () => ProductsCubit(getProductsUseCase: getIt<GetProductsUseCase>()),

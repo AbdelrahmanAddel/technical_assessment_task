@@ -23,8 +23,20 @@ abstract final class HomeDimension {
   static double get ratingSpacing => 4.w;
   static double get loadMoreIndicatorPadding => 16.h;
   static double get loadMoreIndicatorSize => 24.r;
-  static const productCardAspectRatio = 0.62;
+  static const productCardAspectRatio = 0.52;
   static const discountBadgeAlpha = 0.12;
   static const productImagePlaceholderIconAlpha = 0.35;
   static const ratingAlpha = 0.65;
+  static const productDescriptionAlpha = 0.65;
+
+  static double get detailImageHeight => 320.h;
+  static double get detailHorizontalPadding => 16.w;
+  static double get detailSectionSpacing => 16.h;
+  static double get detailFieldSpacing => 12.h;
+  static double get detailBottomSpacing => 24.h;
+  static double get detailSheetRadius => 20.r;
+  static double get detailSheetTopPadding => 12.h;
+  static double get detailSheetBottomPadding => 24.h;
+  static double get detailSheetHandleWidth => 40.w;
+  static double get detailSheetHandleHeight => 4.h;
 }

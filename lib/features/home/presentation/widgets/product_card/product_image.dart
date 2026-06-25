@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_techincal_test/core/helper/extension/color_extension.dart';
 import 'package:flutter_techincal_test/core/theme/app_colors.dart';
 import 'package:flutter_techincal_test/features/home/presentation/home_dimen.dart';
+import 'package:flutter_techincal_test/features/home/presentation/product_detail/product_hero.dart';
 
 class ProductImage extends StatelessWidget {
-  const ProductImage({super.key, required this.coverPictureUrl});
+  const ProductImage({
+    super.key,
+    required this.productId,
+    required this.coverPictureUrl,
+  });
 
+  final String productId;
   final String coverPictureUrl;
 
   @override
@@ -22,26 +28,29 @@ class ProductImage extends StatelessWidget {
         height: double.infinity,
         child: coverPictureUrl.isEmpty
             ? _ImagePlaceholder(colors: colors, icon: Icons.image_outlined)
-            : CachedNetworkImage(
-                imageUrl: coverPictureUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                placeholder: (_, _) => ColoredBox(
-                  color: colors.border,
-                  child: Center(
-                    child: SizedBox.square(
-                      dimension: HomeDimension.loadMoreIndicatorSize,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: colors.primary,
+            : Hero(
+                tag: ProductHero.imageTag(productId),
+                child: CachedNetworkImage(
+                  imageUrl: coverPictureUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  placeholder: (_, _) => ColoredBox(
+                    color: colors.border,
+                    child: Center(
+                      child: SizedBox.square(
+                        dimension: HomeDimension.loadMoreIndicatorSize,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: colors.primary,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                errorWidget: (_, _, _) => _ImagePlaceholder(
-                  colors: colors,
-                  icon: Icons.broken_image_outlined,
+                  errorWidget: (_, _, _) => _ImagePlaceholder(
+                    colors: colors,
+                    icon: Icons.broken_image_outlined,
+                  ),
                 ),
               ),
       ),

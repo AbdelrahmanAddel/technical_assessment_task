@@ -8,6 +8,7 @@ abstract final class ProductMapper {
     return Product(
       id: model.id,
       name: model.name,
+      description: model.description,
       coverPictureUrl: model.coverPictureUrl,
       price: model.price,
       rating: model.rating,

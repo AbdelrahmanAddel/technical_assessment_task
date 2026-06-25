@@ -42,4 +42,32 @@ abstract final class AppStrings {
   static const retry = 'Retry';
   static const currencySymbol = 'EGP';
   static const off = 'OFF';
+  static const productDetails = 'Product Details';
+  static const description = 'Description';
+  static const stock = 'Stock';
+  static const color = 'Color';
+  static const weight = 'Weight';
+  static const categories = 'Categories';
+  static const productCode = 'Product Code';
+  static const editProduct = 'Edit Product';
+  static const deleteProduct = 'Delete Product';
+  static const updateProduct = 'Update Product';
+  static const deleteProductTitle = 'Delete this product?';
+  static const deleteProductMessage =
+      'This action cannot be undone. The product will be permanently removed.';
+  static const cancel = 'Cancel';
+  static const delete = 'Delete';
+  static const productDeleted = 'Product deleted successfully.';
+  static const productUpdated = 'Product updated successfully.';
+  static const failedToLoadProduct = 'Failed to load product.';
+  static const failedToUpdateProduct = 'Failed to update product.';
+  static const failedToDeleteProduct = 'Failed to delete product.';
+  static const enterProductName = 'Enter product name';
+  static const enterDescription = 'Enter description';
+  static const enterPrice = 'Enter price';
+  static const enterStock = 'Enter stock';
+  static const enterColor = 'Enter color';
+  static const enterDiscount = 'Enter discount %';
+  static const inStock = 'in stock';
+  static const reviews = 'reviews';
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_techincal_test/core/constant/app_strings.dart';
 
-enum ValidationType { name, email, password }
+enum ValidationType { name, email, password, price, stock }
 
 abstract final class AppValidation {
   static String? validate(ValidationType type, String? value) {
@@ -11,6 +11,10 @@ abstract final class AppValidation {
         return _validateEmail(value);
       case ValidationType.password:
         return _validatePassword(value);
+      case ValidationType.price:
+        return _validatePrice(value);
+      case ValidationType.stock:
+        return _validateStock(value);
     }
   }
 
@@ -56,6 +60,25 @@ abstract final class AppValidation {
     }
     if (!RegExp(r'[^a-zA-Z0-9]').hasMatch(password)) {
       return 'Password must contain at least one special character.';
+    }
+    return null;
+  }
+
+  static String? _validatePrice(String? value) {
+    final price = value?.trim() ?? '';
+    if (price.isEmpty) {
+      return AppStrings.enterPrice;
+    }
+    if (double.tryParse(price) == null) {
+      return AppStrings.enterPrice;
+    }
+    return null;
+  }
+
+  static String? _validateStock(String? value) {
+    final stock = value?.trim() ?? '';
+    if (stock.isEmpty) {
+      return AppStrings.enterStock;
     }
     return null;
   }
