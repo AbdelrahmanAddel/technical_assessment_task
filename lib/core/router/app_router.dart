@@ -7,6 +7,7 @@ import 'package:flutter_techincal_test/features/auth/presentation/screens/splash
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/home/presentation/product_detail/product_detail_screen.dart';
+import 'app_page_transitions.dart';
 import 'routes_strings.dart';
 
 abstract final class AppRouter {
@@ -15,35 +16,59 @@ abstract final class AppRouter {
     routes: [
       GoRoute(
         path: RoutesStrings.splash,
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.fromState(
+          state: state,
+          child: const SplashScreen(),
+          transition: AppPageTransition.none,
+        ),
       ),
       GoRoute(
         path: RoutesStrings.login,
-        builder: (context, state) => const LoginScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.fromState(
+          state: state,
+          child: const LoginScreen(),
+          transition: AppPageTransition.fade,
+        ),
       ),
       GoRoute(
         path: RoutesStrings.register,
-        builder: (context, state) => const RegisterScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.fromState(
+          state: state,
+          child: const RegisterScreen(),
+          transition: AppPageTransition.slideFromRight,
+        ),
       ),
       GoRoute(
         path: RoutesStrings.otp,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final email = state.uri.queryParameters['email'] ?? '';
-          return OtpScreen(email: email);
+          return AppPageTransitions.fromState(
+            state: state,
+            child: OtpScreen(email: email),
+            transition: AppPageTransition.slideFromRight,
+          );
         },
       ),
       GoRoute(
         path: RoutesStrings.home,
-        builder: (context, state) => const HomeScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.fromState(
+          state: state,
+          child: const HomeScreen(),
+          transition: AppPageTransition.fade,
+        ),
       ),
       GoRoute(
         path: '${RoutesStrings.productDetails}/:productId',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final productId = state.pathParameters['productId']!;
           final preview = state.extra;
-          return ProductDetailScreen(
-            productId: productId,
-            previewProduct: preview is Product ? preview : null,
+          return AppPageTransitions.fromState(
+            state: state,
+            child: ProductDetailScreen(
+              productId: productId,
+              previewProduct: preview is Product ? preview : null,
+            ),
+            transition: AppPageTransition.slideFromRight,
           );
         },
       ),
