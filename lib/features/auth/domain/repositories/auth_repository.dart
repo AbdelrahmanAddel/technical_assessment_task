@@ -19,6 +19,8 @@ abstract interface class AuthRepository {
 
   Future<bool> hasCachedToken();
 
+  User? getCachedUser();
+
   Future<Result<User>> getCurrentUser();
 
   Future<Result<void>> logout();

@@ -26,7 +26,7 @@ class ProfileErrorView extends StatelessWidget {
             verticalSpace(ProfileDimension.sectionTopSpacing),
             AppButton(
               text: AppStrings.retry,
-              onPressed: () => context.read<ProfileCubit>().loadProfile(),
+              onPressed: () => context.read<ProfileCubit>().refreshProfile(),
             ),
           ],
         ),

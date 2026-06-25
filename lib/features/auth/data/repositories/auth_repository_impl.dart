@@ -5,6 +5,7 @@ import '../../../../core/cache/hive_boxes.dart';
 import '../../../../core/constant/storage_keys.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/network/network_info.dart';
 import '../../../../core/storage/app_prefs.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../domain/entities/auth_session.dart';
@@ -19,11 +20,13 @@ final class AuthRepositoryImpl implements AuthRepository {
     required this.remoteDataSource,
     required this.secureStorage,
     required this.appPrefs,
+    required this.networkInfo,
   });
 
   final AuthRemoteDataSource remoteDataSource;
   final SecureStorage secureStorage;
   final AppPrefs appPrefs;
+  final NetworkInfo networkInfo;
 
   @override
   Future<Result<AuthSession>> login({
@@ -82,21 +85,81 @@ final class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  User? getCachedUser() {
+    final cached = appPrefs.cachedUser;
+    if (cached == null) return null;
+
+    return User(
+      userId: cached.userId,
+      email: cached.email,
+      fullName: cached.fullName,
+      profilePicture: cached.profilePicture,
+    );
+  }
+
+  @override
   Future<Result<User>> getCurrentUser() async {
+    if (!await networkInfo.isConnected) {
+      final cached = getCachedUser();
+      if (cached != null) {
+        return Success(cached);
+      }
+    }
+
     try {
       final response = await remoteDataSource.getCurrentUser();
       final user = AuthMapper.toUserEntity(response);
-      await appPrefs.saveUser(name: user.fullName, email: user.email);
+      await _cacheUser(user);
       return Success(user);
     } on DioException catch (error) {
-      return FailureResult(ServerFailure.fromDioException(dioException: error));
+      return _getCachedUserOrFail(error);
     } on ServerException catch (error) {
-      return FailureResult(ServerFailure(errMessage: error.message));
+      return _getCachedUserOrFailOnServerError(error);
     } catch (_) {
-      return const FailureResult(
-        ServerFailure(errMessage: 'Unexpected error, please try later.'),
-      );
+      return _getCachedUserOrFailOnUnknown();
     }
+  }
+
+  Future<void> _cacheUser(User user) async {
+    await appPrefs.saveUser(
+      userId: user.userId,
+      name: user.fullName,
+      email: user.email,
+      profilePicture: user.profilePicture,
+    );
+  }
+
+  Future<Result<User>> _getCachedUserOrFail(DioException error) async {
+    final cached = getCachedUser();
+    if (cached != null) {
+      return Success(cached);
+    }
+
+    return FailureResult(ServerFailure.fromDioException(dioException: error));
+  }
+
+  Future<Result<User>> _getCachedUserOrFailOnServerError(
+    ServerException error,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      final cached = getCachedUser();
+      if (cached != null) {
+        return Success(cached);
+      }
+    }
+
+    return FailureResult(ServerFailure(errMessage: error.message));
+  }
+
+  Future<Result<User>> _getCachedUserOrFailOnUnknown() async {
+    final cached = getCachedUser();
+    if (cached != null) {
+      return Success(cached);
+    }
+
+    return const FailureResult(
+      ServerFailure(errMessage: 'Unexpected error, please try later.'),
+    );
   }
 
   @override

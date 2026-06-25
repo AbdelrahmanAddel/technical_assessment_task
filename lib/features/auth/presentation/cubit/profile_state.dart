@@ -16,18 +16,22 @@ final class ProfileLoaded extends ProfileState {
   const ProfileLoaded({
     required this.user,
     this.isLoggingOut = false,
+    this.isRefreshing = false,
   });
 
   final User user;
   final bool isLoggingOut;
+  final bool isRefreshing;
 
   ProfileLoaded copyWith({
     User? user,
     bool? isLoggingOut,
+    bool? isRefreshing,
   }) {
     return ProfileLoaded(
       user: user ?? this.user,
       isLoggingOut: isLoggingOut ?? this.isLoggingOut,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
     );
   }
 }

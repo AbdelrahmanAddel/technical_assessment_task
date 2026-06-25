@@ -16,10 +16,12 @@ class ProfileView extends StatelessWidget {
         return switch (state) {
           ProfileInitial() || ProfileLoading() => const ProductsLoadingView(),
           ProfileFailure(:final message) => ProfileErrorView(message: message),
-          ProfileLoaded(:final user, :final isLoggingOut) => ProfileContentView(
-            user: user,
-            isLoggingOut: isLoggingOut,
-          ),
+          ProfileLoaded(:final user, :final isLoggingOut, :final isRefreshing) =>
+            ProfileContentView(
+              user: user,
+              isLoggingOut: isLoggingOut,
+              isRefreshing: isRefreshing,
+            ),
           ProfileLogoutFailure(:final user) => ProfileContentView(
             user: user,
             isLoggingOut: false,

@@ -9,6 +9,7 @@ import '../../features/auth/data/data_sources/auth_remote_data_source_impl.dart'
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/check_auth_use_case.dart';
+import '../../features/auth/domain/usecases/get_cached_user_use_case.dart';
 import '../../features/auth/domain/usecases/get_current_user_use_case.dart';
 import '../../features/auth/domain/usecases/login_use_case.dart';
 import '../../features/auth/domain/usecases/logout_use_case.dart';
@@ -88,6 +89,7 @@ void _setupAuthFeature() {
         remoteDataSource: getIt<AuthRemoteDataSource>(),
         secureStorage: getIt<SecureStorage>(),
         appPrefs: getIt<AppPrefs>(),
+        networkInfo: getIt<NetworkInfo>(),
       ),
     )
     ..registerLazySingleton<LoginUseCase>(
@@ -101,6 +103,9 @@ void _setupAuthFeature() {
     )
     ..registerLazySingleton<VerifyEmailUseCase>(
       () => VerifyEmailUseCase(authRepository: getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<GetCachedUserUseCase>(
+      () => GetCachedUserUseCase(authRepository: getIt<AuthRepository>()),
     )
     ..registerLazySingleton<GetCurrentUserUseCase>(
       () => GetCurrentUserUseCase(authRepository: getIt<AuthRepository>()),
@@ -119,6 +124,7 @@ void _setupAuthFeature() {
     )
     ..registerFactory<ProfileCubit>(
       () => ProfileCubit(
+        getCachedUserUseCase: getIt<GetCachedUserUseCase>(),
         getCurrentUserUseCase: getIt<GetCurrentUserUseCase>(),
         logoutUseCase: getIt<LogoutUseCase>(),
       ),
