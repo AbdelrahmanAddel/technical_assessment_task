@@ -5,6 +5,7 @@ import '../../../../core/errors/exceptions.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
 import '../models/register_request.dart';
+import '../models/user_model.dart';
 import 'auth_remote_data_source.dart';
 
 final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -51,5 +52,25 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         ApiKeys.otp: otp,
       },
     );
+  }
+
+  @override
+  Future<UserModel> getCurrentUser() async {
+    try {
+      final response = await apiConsumer.get(path: ApiKeys.authMe);
+
+      if (response is! Map<String, dynamic>) {
+        throw ServerException(message: AppStrings.failedToLoadProfile);
+      }
+
+      return UserModel.fromJson(response);
+    } on FormatException {
+      throw ServerException(message: AppStrings.failedToLoadProfile);
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    await apiConsumer.post(path: ApiKeys.authLogout);
   }
 }

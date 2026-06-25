@@ -1,5 +1,6 @@
 import '../models/login_response.dart';
 import '../models/register_request.dart';
+import '../models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<LoginResponse> login({
@@ -13,4 +14,8 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String otp,
   });
+
+  Future<UserModel> getCurrentUser();
+
+  Future<void> logout();
 }

@@ -3,6 +3,8 @@ abstract final class ApiKeys {
   static const authLogin = '/api/auth/login';
   static const authRegister = '/api/auth/register';
   static const authVerifyEmail = '/api/auth/verify-email';
+  static const authMe = '/api/auth/me';
+  static const authLogout = '/api/auth/logout';
   static const products = '/api/products';
 
   static String productById(String id) => '$products/$id';
@@ -32,6 +34,9 @@ abstract final class ApiKeys {
   static const reviewsCount = 'reviewsCount';
   static const discountPercentage = 'discountPercentage';
 
+  static const userId = 'userId';
+  static const fullName = 'fullName';
+  static const profilePicture = 'profilePicture';
   static const email = 'email';
   static const otp = 'otp';
   static const password = 'password';

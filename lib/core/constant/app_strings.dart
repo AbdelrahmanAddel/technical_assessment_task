@@ -70,4 +70,10 @@ abstract final class AppStrings {
   static const enterDiscount = 'Enter discount %';
   static const inStock = 'in stock';
   static const reviews = 'reviews';
+  static const settings = 'Settings';
+  static const account = 'Account';
+  static const logout = 'Logout';
+  static const failedToLoadProfile = 'Failed to load profile.';
+  static const failedToLogout = 'Failed to logout. Please try again.';
+  static const profilePicture = 'Profile picture';
 }

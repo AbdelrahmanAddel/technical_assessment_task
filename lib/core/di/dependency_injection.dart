@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -9,11 +8,14 @@ import '../../features/auth/data/data_sources/auth_remote_data_source_impl.dart'
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/check_auth_use_case.dart';
+import '../../features/auth/domain/usecases/get_current_user_use_case.dart';
 import '../../features/auth/domain/usecases/login_use_case.dart';
+import '../../features/auth/domain/usecases/logout_use_case.dart';
 import '../../features/auth/domain/usecases/register_use_case.dart';
 import '../../features/auth/domain/usecases/verify_email_use_case.dart';
 import '../../features/auth/presentation/cubit/login_cubit.dart';
 import '../../features/auth/presentation/cubit/otp_cubit.dart';
+import '../../features/auth/presentation/cubit/profile_cubit.dart';
 import '../../features/auth/presentation/cubit/register_cubit.dart';
 import '../../features/home/data/data_sources/products_local_data_source.dart';
 import '../../features/home/data/data_sources/products_local_data_source_impl.dart';
@@ -30,7 +32,8 @@ import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
 import '../cache/hive_boxes.dart';
 import '../constant/api_strings.dart';
-import '../helper/secure_storage.dart';
+import '../storage/secure_storage.dart';
+import '../network/auth_interceptor.dart';
 import '../network/network_info.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -46,7 +49,8 @@ void _setupCore() {
   if (getIt.isRegistered<Dio>()) return;
 
   final dio = Dio(BaseOptions(baseUrl: ApiKeys.baseUrl));
-  dio.interceptors.add(
+  dio.interceptors.addAll([
+    const AuthInterceptor(),
     PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -56,7 +60,7 @@ void _setupCore() {
       compact: true,
       maxWidth: 90,
     ),
-  );
+  ]);
 
   getIt
     ..registerSingleton<Dio>(dio)
@@ -64,9 +68,7 @@ void _setupCore() {
     ..registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectivity: getIt<Connectivity>()),
     )
-    ..registerLazySingleton<SecureStorage>(
-      () => SecureStorage(storage: const FlutterSecureStorage()),
-    )
+    ..registerLazySingleton<SecureStorage>(() => SecureStorage.instance)
     ..registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: getIt<Dio>()));
 }
 
@@ -93,6 +95,12 @@ void _setupAuthFeature() {
     ..registerLazySingleton<VerifyEmailUseCase>(
       () => VerifyEmailUseCase(authRepository: getIt<AuthRepository>()),
     )
+    ..registerLazySingleton<GetCurrentUserUseCase>(
+      () => GetCurrentUserUseCase(authRepository: getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<LogoutUseCase>(
+      () => LogoutUseCase(authRepository: getIt<AuthRepository>()),
+    )
     ..registerFactory<LoginCubit>(
       () => LoginCubit(loginUseCase: getIt<LoginUseCase>()),
     )
@@ -101,6 +109,12 @@ void _setupAuthFeature() {
     )
     ..registerFactory<OtpCubit>(
       () => OtpCubit(verifyEmailUseCase: getIt<VerifyEmailUseCase>()),
+    )
+    ..registerFactory<ProfileCubit>(
+      () => ProfileCubit(
+        getCurrentUserUseCase: getIt<GetCurrentUserUseCase>(),
+        logoutUseCase: getIt<LogoutUseCase>(),
+      ),
     );
 }
 
