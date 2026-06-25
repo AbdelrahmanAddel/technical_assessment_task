@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../../features/auth/data/data_sources/auth_remote_data_source_impl.dart';
@@ -32,6 +33,7 @@ import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
 import '../cache/hive_boxes.dart';
 import '../constant/api_strings.dart';
+import '../storage/app_prefs.dart';
 import '../storage/secure_storage.dart';
 import '../network/auth_interceptor.dart';
 import '../network/network_info.dart';
@@ -40,6 +42,10 @@ final GetIt getIt = GetIt.instance;
 
 Future<void> setupDependencyInjection() async {
   await HiveBoxes.init();
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerSingleton<AppPrefs>(AppPrefs(sharedPreferences));
+
   _setupCore();
   _setupAuthFeature();
   _setupHomeFeature();
@@ -81,6 +87,7 @@ void _setupAuthFeature() {
       () => AuthRepositoryImpl(
         remoteDataSource: getIt<AuthRemoteDataSource>(),
         secureStorage: getIt<SecureStorage>(),
+        appPrefs: getIt<AppPrefs>(),
       ),
     )
     ..registerLazySingleton<LoginUseCase>(

@@ -6,6 +6,7 @@ import 'package:flutter_techincal_test/features/home/presentation/profile/profil
 import 'package:flutter_techincal_test/features/home/presentation/profile/widgets/profile_header_card.dart';
 import 'package:flutter_techincal_test/features/home/presentation/profile/widgets/profile_info_section.dart';
 import 'package:flutter_techincal_test/features/home/presentation/profile/widgets/profile_logout_section.dart';
+import 'package:flutter_techincal_test/features/home/presentation/profile/widgets/theme/profile_theme_section.dart';
 
 class ProfileContentView extends StatelessWidget {
   const ProfileContentView({
@@ -35,6 +36,8 @@ class ProfileContentView extends StatelessWidget {
               ProfileHeaderCard(user: user),
               verticalSpace(ProfileDimension.sectionTopSpacing),
               ProfileInfoSection(user: user),
+              verticalSpace(ProfileDimension.sectionTopSpacing),
+              const ProfileThemeSection(),
               verticalSpace(ProfileDimension.logoutTopSpacing),
               ProfileLogoutSection(isLoggingOut: isLoggingOut),
             ],

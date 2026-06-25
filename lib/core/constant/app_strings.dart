@@ -71,6 +71,11 @@ abstract final class AppStrings {
   static const inStock = 'in stock';
   static const reviews = 'reviews';
   static const settings = 'Settings';
+  static const appearance = 'Appearance';
+  static const appearanceSubtitle = 'Choose how the app looks on your device.';
+  static const lightTheme = 'Light';
+  static const darkTheme = 'Dark';
+  static const systemTheme = 'System';
   static const account = 'Account';
   static const logout = 'Logout';
   static const failedToLoadProfile = 'Failed to load profile.';

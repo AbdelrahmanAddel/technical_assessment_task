@@ -5,6 +5,7 @@ import '../../../../core/cache/hive_boxes.dart';
 import '../../../../core/constant/storage_keys.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/storage/app_prefs.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../domain/entities/auth_session.dart';
 import '../../domain/entities/user.dart';
@@ -17,10 +18,12 @@ final class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({
     required this.remoteDataSource,
     required this.secureStorage,
+    required this.appPrefs,
   });
 
   final AuthRemoteDataSource remoteDataSource;
   final SecureStorage secureStorage;
+  final AppPrefs appPrefs;
 
   @override
   Future<Result<AuthSession>> login({
@@ -82,7 +85,9 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<Result<User>> getCurrentUser() async {
     try {
       final response = await remoteDataSource.getCurrentUser();
-      return Success(AuthMapper.toUserEntity(response));
+      final user = AuthMapper.toUserEntity(response);
+      await appPrefs.saveUser(name: user.fullName, email: user.email);
+      return Success(user);
     } on DioException catch (error) {
       return FailureResult(ServerFailure.fromDioException(dioException: error));
     } on ServerException catch (error) {
@@ -114,6 +119,7 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<void> _clearLocalSession() async {
     await secureStorage.delete(key: StorageKeys.accessToken);
     await secureStorage.delete(key: StorageKeys.refreshToken);
+    await appPrefs.clearUser();
     await HiveBoxes.products.clear();
     await HiveBoxes.productDetails.clear();
   }

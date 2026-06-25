@@ -7,5 +7,9 @@ abstract final class StorageKeys {
   static const productsBox = 'products_box';
   static const productDetailsBox = 'product_details_box';
 
+  static const themeMode = 'theme_mode';
+  static const userName = 'user_name';
+  static const userEmail = 'user_email';
+
   static String productsPageKey(int page) => 'page_$page';
 }
