@@ -58,6 +58,7 @@ abstract final class AppStrings {
   static const cancel = 'Cancel';
   static const delete = 'Delete';
   static const productDeleted = 'Product deleted successfully.';
+  static const backToLogin = 'Back to login';
   static const productUpdated = 'Product updated successfully.';
   static const failedToLoadProduct = 'Failed to load product.';
   static const failedToUpdateProduct = 'Failed to update product.';

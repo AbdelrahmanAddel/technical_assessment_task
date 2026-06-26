@@ -5,12 +5,14 @@ import 'package:flutter_techincal_test/core/common/widget/app_button.dart';
 import 'package:flutter_techincal_test/core/constant/app_strings.dart';
 import 'package:flutter_techincal_test/core/helper/extension/color_extension.dart';
 import 'package:flutter_techincal_test/core/helper/spacer_helper.dart';
+import 'package:flutter_techincal_test/core/router/routes_strings.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/auth_dimen.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/cubit/otp_cubit.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/cubit/otp_state.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/widgets/auth_header.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:flutter_techincal_test/features/auth/presentation/widgets/otp_bloc_listener.dart';
+import 'package:go_router/go_router.dart';
 
 class OtpView extends StatefulWidget {
   const OtpView({super.key, required this.email});
@@ -80,22 +82,31 @@ class _OtpViewState extends State<OtpView> {
                     focusedBorderColor: colors.primary,
                     enabledBorderColor: colors.border,
                     disabledBorderColor: colors.border.withValues(alpha: 0.5),
-                    fieldWidth: AuthDimension.otpFieldWidth(constraints.maxWidth),
+                    fieldWidth: AuthDimension.otpFieldWidth(
+                      constraints.maxWidth,
+                    ),
                     fieldHeight: AuthDimension.otpFieldHeight,
                     borderRadius: AuthDimension.otpFieldBorderRadius,
                     margin: AuthDimension.otpFieldMargin,
                     textStyle: Theme.of(context).textTheme.titleLarge,
                     keyboardType: TextInputType.number,
-                    handleControllers: (controllers) => _controllers = controllers,
+                    handleControllers: (controllers) =>
+                        _controllers = controllers,
                     onSubmit: (_) => _submit(),
                   );
                 },
               ),
               verticalSpace(AuthDimension.verifyButtonTopSpacing),
-              AppButton(
+              AppButton(  
                 text: AppStrings.verify,
                 isLoading: isLoading,
                 onPressed: _submit,
+              ),
+              TextButton(
+                onPressed: () {
+                  context.go(RoutesStrings.login);
+                },
+                child: Text(AppStrings.backToLogin),
               ),
             ],
           ),
