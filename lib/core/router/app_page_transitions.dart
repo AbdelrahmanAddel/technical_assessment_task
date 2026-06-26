@@ -9,15 +9,15 @@ enum AppPageTransition {
 }
 
 abstract final class AppPageTransitions {
-  static const _duration = Duration(milliseconds: 300);
+  static const duration = Duration(milliseconds: 300);
 
   static Page<T> build<T>({
     required LocalKey key,
     required Widget child,
     AppPageTransition transition = AppPageTransition.fade,
-    Duration? duration,
+    Duration? transitionDuration,
   }) {
-    final resolvedDuration = duration ?? _duration;
+    final resolvedDuration = transitionDuration ?? duration;
 
     return switch (transition) {
       AppPageTransition.none => NoTransitionPage<T>(key: key, child: child),
@@ -26,21 +26,24 @@ abstract final class AppPageTransitions {
         child: child,
         transitionDuration: resolvedDuration,
         reverseTransitionDuration: resolvedDuration,
-        transitionsBuilder: _fade,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            fade(animation, child),
       ),
       AppPageTransition.slideFromRight => CustomTransitionPage<T>(
         key: key,
         child: child,
         transitionDuration: resolvedDuration,
         reverseTransitionDuration: resolvedDuration,
-        transitionsBuilder: _slideFromRight,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            slideFromRight(animation, child),
       ),
       AppPageTransition.slideFromBottom => CustomTransitionPage<T>(
         key: key,
         child: child,
         transitionDuration: resolvedDuration,
         reverseTransitionDuration: resolvedDuration,
-        transitionsBuilder: _slideFromBottom,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            slideFromBottom(animation, child),
       ),
     };
   }
@@ -49,64 +52,39 @@ abstract final class AppPageTransitions {
     required GoRouterState state,
     required Widget child,
     AppPageTransition transition = AppPageTransition.fade,
-    Duration? duration,
+    Duration? transitionDuration,
   }) {
     return build<T>(
       key: state.pageKey,
       child: child,
       transition: transition,
-      duration: duration,
+      transitionDuration: transitionDuration,
     );
   }
 
-  static Widget _fade(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
+  static Widget fade(Animation<double> animation, Widget child) {
     return FadeTransition(
       opacity: CurvedAnimation(parent: animation, curve: Curves.easeInOut),
       child: child,
     );
   }
 
-  static Widget _slideFromRight(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    final curvedAnimation = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeInOut,
-    );
-
+  static Widget slideFromRight(Animation<double> animation, Widget child) {
     return SlideTransition(
       position: Tween<Offset>(
         begin: const Offset(1, 0),
         end: Offset.zero,
-      ).animate(curvedAnimation),
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
       child: child,
     );
   }
 
-  static Widget _slideFromBottom(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    final curvedAnimation = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeInOut,
-    );
-
+  static Widget slideFromBottom(Animation<double> animation, Widget child) {
     return SlideTransition(
       position: Tween<Offset>(
         begin: const Offset(0, 1),
         end: Offset.zero,
-      ).animate(curvedAnimation),
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
       child: child,
     );
   }
